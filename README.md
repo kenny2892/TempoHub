@@ -18,3 +18,8 @@ This is a work in progress C# WPF personal project that I've been working on for
 <p align="center">
   <img src="https://i.gyazo.com/89697969e5d38abbb70ebf23eba39dd7.png" width="600">
 </p>
+
+## Credits
+- Styles using [Mahapps](https://mahapps.com/)
+- Album covers found using [MusicBrainz API](https://musicbrainz.org/)
+- MusicBrainz API access using [MetaBrainz.MusicBrainz](https://github.com/Zastai/MetaBrainz.MusicBrainz) and [MetaBrainz.MusicBrainz.CoverArt](https://github.com/Zastai/MetaBrainz.MusicBrainz.CoverArt)
