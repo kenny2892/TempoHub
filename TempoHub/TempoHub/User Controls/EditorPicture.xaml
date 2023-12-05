@@ -1,0 +1,33 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:local="clr-namespace:TempoHub.User_Controls"
+             xmlns:con="clr-namespace:TempoHub.Converters"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             x:Class="TempoHub.User_Controls.EditorPicture"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="800">
+    <UserControl.Resources>
+        <mah:MathDivideConverter x:Key="MathDivideConverter"/>
+        <con:EditorPictureRemoveBtnMarginConverter x:Key="EditorPictureRemoveBtnMarginConverter" />
+    </UserControl.Resources>
+
+    <Grid x:Name="mainGrid" Height="{Binding Height, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="{Binding Width, RelativeSource={RelativeSource AncestorType=UserControl}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{Binding ActualHeight, ConverterParameter=16, Converter={StaticResource MathDivideConverter}, ElementName=mainGrid, Mode=OneWay}"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding ActualHeight, ConverterParameter=16, Converter={StaticResource MathDivideConverter}, ElementName=mainGrid, Mode=OneWay}"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <iconPacks:PackIconFeatherIcons x:Name="removalIcon" Kind="MinusCircle" Width="{Binding ActualHeight, ConverterParameter=16, Converter={StaticResource MathDivideConverter}, ElementName=picture, Mode=OneWay}" Height="{Binding ActualHeight, ConverterParameter=16, Converter={StaticResource MathDivideConverter}, ElementName=picture, Mode=OneWay}" Margin="{Binding ActualHeight, Converter={StaticResource EditorPictureRemoveBtnMarginConverter}, ElementName=removalIcon, Mode=OneWay}" Grid.Row="1" Grid.Column="1" Panel.ZIndex="1" Background="#00000000" MouseUp="OnRemovalClick" />
+        <Border Grid.Row="1" Grid.Column="1" BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            <local:AspectRatioImage x:Name="picture" Background="{Binding RemovalBtnBackground, RelativeSource={RelativeSource AncestorType=UserControl}}" Foreground="{Binding RemovalBtnForeground, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        </Border>
+    </Grid>
+</UserControl>

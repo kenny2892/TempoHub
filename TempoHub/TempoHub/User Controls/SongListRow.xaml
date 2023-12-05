@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="TempoHub.User_Controls.SongListRow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:local="clr-namespace:TempoHub.User_Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="800">
+    <Grid x:Name="songGrid" Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundBaseLow}" MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave" MouseDown="OnDoubleClick">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <iconPacks:PackIconIonicons x:Name="addIcon" Kind="AddMD" Background="#FF848484" Foreground="{DynamicResource MahApps.Brushes.Button.Flat.Background.MouseOver}" HorizontalAlignment="Center" VerticalAlignment="Center" MouseUp="OnAddClick" Margin="3,0,12,0" />
+            <iconPacks:PackIconModern x:Name="playIcon" Kind="ControlPlay" Background="#FF848484" Foreground="{DynamicResource MahApps.Brushes.Button.Flat.Background.MouseOver}" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="OnPlayClick" Margin="0,0,12,0" />
+            <Label x:Name="songNameLbl" Content="{Binding SongName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <Label x:Name="songLengthLbl" Content="{Binding SongLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" HorizontalAlignment="Right" HorizontalContentAlignment="Right"/>
+
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Edit Song Info" Click="OnEditSongInfoClick"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
+    </Grid>
+</UserControl>

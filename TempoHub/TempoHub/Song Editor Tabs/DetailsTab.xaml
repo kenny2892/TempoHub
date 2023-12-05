@@ -1,0 +1,155 @@
+﻿<UserControl x:Class="TempoHub.Song_Editor_Tabs.DetailsTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TempoHub.Song_Editor_Tabs"
+             xmlns:uc="clr-namespace:TempoHub.User_Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="450">
+    
+    <StackPanel x:Name="detailsStackPanel">
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="titleLbl" Content="Title:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="titleInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="{Binding TitleTxt, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="0,0,50,0" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Album:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="albumInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="{Binding AlbumTxt, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="0,0,50,0" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Artist:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="artistInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="{Binding ArtistTxt, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="0,0,50,0" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Album Artist:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="albumArtistInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="Test" Margin="0,0,50,0" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Genres:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="genresInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="Test" Margin="0,0,50,0" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Composer:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="composerInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="Test" Margin="0,0,50,0" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Publisher:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="publisherInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="Test" Margin="0,0,50,0" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Conductor:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="conductorInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="Test" Margin="0,0,50,0" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Grouping:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="groupingInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="Test" Margin="0,0,50,0" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Year:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="yearInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="Test" Margin="0,0,50,0" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Track:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <uc:NumberTextBox x:Name="trackCurrInput" VerticalContentAlignment="Center" Text="1" Margin="0,0,10,0" Width="75" />
+                <Label Content="of" Padding="0,0,0,0" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" FontSize="16" />
+                <uc:NumberTextBox x:Name="trackTotalInput" VerticalContentAlignment="Center" Text="69" Margin="10,0,50,0" Width="75" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Disc Number:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <uc:NumberTextBox x:Name="discCurrInput" VerticalContentAlignment="Center" Text="1" Margin="0,0,10,0" Width="75" />
+                <Label Content="of" Padding="0,0,0,0" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" FontSize="16" />
+                <uc:NumberTextBox x:Name="discTotalInput" VerticalContentAlignment="Center" Text="69" Margin="10,0,50,0" Width="75" />
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="ratingsGrid" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Rating:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <uc:StarRating x:Name="starRating" Grid.Column="1" Height="26" Width="100" HorizontalAlignment="Left" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="BPM:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="bpmInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="Test" Margin="0,0,50,0" />
+        </Grid>
+
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Comment:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="commentInput" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Text="Test" Margin="0,0,50,0" />
+        </Grid>
+    </StackPanel>
+</UserControl>

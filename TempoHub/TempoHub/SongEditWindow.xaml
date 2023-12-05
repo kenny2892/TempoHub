@@ -1,0 +1,96 @@
+﻿<mah:MetroWindow xmlns:User_Controls="clr-namespace:TempoHub.User_Controls"  x:Class="TempoHub.SongEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:TempoHub"
+        xmlns:con="clr-namespace:TempoHub.Converters"
+        xmlns:tabs="clr-namespace:TempoHub.Song_Editor_Tabs"
+        mc:Ignorable="d"
+        Title="Song Editor" Height="800" Width="450" WindowStartupLocation="CenterScreen" IsMaxRestoreButtonEnabled="False" ShowMaxRestoreButton="False" IsMinButtonEnabled="False" ShowMinButton="False" IsCloseButtonEnabled="False" ShowCloseButton="False" ResizeMode="NoResize" TitleCharacterCasing="Normal">
+
+    <Window.Resources>
+        <con:VisibilityBasedOnStringConverter x:Key="VisibilityBasedOnStringConverter" />
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <User_Controls:AspectRatioImage x:Name="albumCoverImg" />
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <Label x:Name="songTitleLbl" Content="{Binding TitleTxt, ElementName=detailsStackPanel, Mode=TwoWay}" FontSize="24" Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" Padding="5,0,5,0" Visibility="{Binding Content, ConverterParameter=Collapsed, Converter={StaticResource VisibilityBasedOnStringConverter}, ElementName=songTitleLbl}" />
+                <Label x:Name="songAlbumLbl" Content="{Binding AlbumTxt, ElementName=detailsStackPanel, Mode=TwoWay}" FontSize="18" Foreground="{DynamicResource MahApps.Brushes.IdealForegroundDisabled}" Padding="5,0,5,0" Visibility="{Binding Content, ConverterParameter=Collapsed, Converter={StaticResource VisibilityBasedOnStringConverter}, ElementName=songAlbumLbl}" />
+                <Label x:Name="songArtistLbl" Content="{Binding ArtistTxt, ElementName=detailsStackPanel, Mode=TwoWay}" Foreground="{DynamicResource MahApps.Brushes.IdealForegroundDisabled}" Padding="5,0,5,0" Margin="0,3,0,0" Visibility="{Binding Content, ConverterParameter=Collapsed, Converter={StaticResource VisibilityBasedOnStringConverter}, ElementName=songArtistLbl}" />
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="1" BorderThickness="0,3,0,0" BorderBrush="{DynamicResource MahApps.Brushes.SubMenu.Border}">
+            <Grid>
+                <Grid x:Name="mainContentGrid" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel x:Name="tabStackPanel" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <User_Controls:ToggleButton x:Name="detailsTabBtn" CornerRadius="2" FontSize="14" Background="{DynamicResource MahApps.Brushes.Button.AccentedSquare.Background.MouseOver}" Foreground="{DynamicResource MahApps.Brushes.Button.Flat.Background}" Width="100" BorderBrush="{DynamicResource MahApps.Brushes.Button.Border}" BorderThickness="2,2,2,2" LabelContent="Details" MouseEnter="OnTabMouseEnter" MouseLeave="OnTabMouseLeave" MouseUp="OnMainTabMouseUp" />
+                        <User_Controls:ToggleButton x:Name="picturesTabBtn" CornerRadius="2" FontSize="14" Background="{DynamicResource MahApps.Brushes.Button.AccentedSquare.Background.MouseOver}" Foreground="{DynamicResource MahApps.Brushes.Button.Flat.Background}" Width="100" BorderBrush="{DynamicResource MahApps.Brushes.Button.Border}" BorderThickness="2,2,2,2" LabelContent="Pictures" MouseEnter="OnTabMouseEnter" MouseLeave="OnTabMouseLeave" MouseUp="OnMainTabMouseUp" />
+                        <User_Controls:ToggleButton x:Name="lyricsTabBtn" CornerRadius="2" FontSize="14" Background="{DynamicResource MahApps.Brushes.Button.AccentedSquare.Background.MouseOver}" Foreground="{DynamicResource MahApps.Brushes.Button.Flat.Background}" Width="100" BorderBrush="{DynamicResource MahApps.Brushes.Button.Border}" BorderThickness="2,2,2,2" LabelContent="Lyrics" MouseEnter="OnTabMouseEnter" MouseLeave="OnTabMouseLeave" MouseUp="OnMainTabMouseUp" />
+                    </StackPanel>
+
+                    <tabs:DetailsTab x:Name="detailsStackPanel" Grid.Row="2" />
+                    <tabs:PicturesTab x:Name="picturesTabContent" Grid.Row="2" Visibility="Collapsed" />
+
+                    <StackPanel x:Name="lyricsStackPanel" Grid.Row="2" Visibility="Collapsed">
+
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Center" Margin="0,0,50,0" Orientation="Horizontal">
+                        <Button x:Name="applyBtn" Content="Apply" Padding="10,6,10,6" Margin="0,0,10,0" Width="100" Click="OnApplyBtnClick" />
+                        <Button x:Name="cancelBtn" Content="Cancel" Padding="10,6,10,6" Width="100" Click="OnCancelBtnClick" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid x:Name="pictureAddGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel x:Name="picAddTabStackPanel" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <User_Controls:ToggleButton x:Name="picByFileTab" CornerRadius="2" FontSize="14" Background="{DynamicResource MahApps.Brushes.Button.AccentedSquare.Background.MouseOver}" Foreground="{DynamicResource MahApps.Brushes.Button.Flat.Background}" Width="100" BorderBrush="{DynamicResource MahApps.Brushes.Button.Border}" BorderThickness="2,2,2,2" LabelContent="File" MouseEnter="OnTabMouseEnter" MouseLeave="OnTabMouseLeave" MouseUp="OnPictureAddTabMouseUp" />
+                        <User_Controls:ToggleButton x:Name="picByMusicBrainzTab" CornerRadius="2" FontSize="14" Background="{DynamicResource MahApps.Brushes.Button.AccentedSquare.Background.MouseOver}" Foreground="{DynamicResource MahApps.Brushes.Button.Flat.Background}" Width="100" BorderBrush="{DynamicResource MahApps.Brushes.Button.Border}" BorderThickness="2,2,2,2" LabelContent="MusicBrainz" MouseEnter="OnTabMouseEnter" MouseLeave="OnTabMouseLeave" MouseUp="OnPictureAddTabMouseUp" />
+                        <User_Controls:ToggleButton x:Name="picByUrlTab" CornerRadius="2" FontSize="14" Background="{DynamicResource MahApps.Brushes.Button.AccentedSquare.Background.MouseOver}" Foreground="{DynamicResource MahApps.Brushes.Button.Flat.Background}" Width="100" BorderBrush="{DynamicResource MahApps.Brushes.Button.Border}" BorderThickness="2,2,2,2" LabelContent="URL" MouseEnter="OnTabMouseEnter" MouseLeave="OnTabMouseLeave" MouseUp="OnPictureAddTabMouseUp" />
+                    </StackPanel>
+
+                    <tabs:AddPictureByFileTab x:Name="picByFileContent" Grid.Row="2" Visibility="Collapsed" />
+                    <tabs:AddPictureByMusicBrainzTab x:Name="picByMusicBrainzContent" Grid.Row="2" />
+
+                    <Grid x:Name="picByUrlGrid" Grid.Row="2">
+                    
+                    </Grid>
+
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="pictureAddUploadBtn" Content="Upload" Padding="10,6,10,6" Margin="0,0,10,0" Width="100" Click="OnAddPictureUploadClick" Height="30" />
+                        <Button x:Name="pictureAddCancelBtn" Content="Cancel" Padding="10,6,10,6" Margin="10,0,0,0" Width="100" Click="OnAddPictureCancelClick" Height="30" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</mah:MetroWindow>

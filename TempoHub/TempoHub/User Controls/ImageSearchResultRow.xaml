@@ -1,0 +1,37 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TempoHub.User_Controls"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" xmlns:Converters="clr-namespace:TempoHub.Converters" x:Class="TempoHub.User_Controls.ImageSearchResultRow"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="450">
+
+    <UserControl.Resources>
+        <Converters:GridHeightToFontSizeConverter x:Key="GridHeightToFontSizeConverter"/>
+        <mah:MathDivideConverter x:Key="MathDivideConverter"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="rowGrid" Background="#00000000">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.25*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <CheckBox x:Name="selectedCheckBox" Padding="0,0,0,0" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" Click="OnSelectedCheckBoxClick" />
+
+        <Grid x:Name="infoGrid" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="albumNameLbl" Content="Test" Padding="5,5,5,0" FontSize="20"/>
+            <Label x:Name="songNameLbl" Grid.Row="1" Content="test" Padding="5,0,5,5" FontSize="16"/>
+            <Label x:Name="artistNameLbl" Grid.Row="2" Content="test" Padding="5,0,5,5"/>
+            <Image x:Name="albumImage" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        </Grid>
+    </Grid>
+</UserControl>
