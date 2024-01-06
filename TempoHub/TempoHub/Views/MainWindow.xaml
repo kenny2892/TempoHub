@@ -1,0 +1,219 @@
+﻿<mah:MetroWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:TempoHub.Views"
+        xmlns:con="clr-namespace:TempoHub.Converters"
+        xmlns:uc="clr-namespace:TempoHub.User_Controls"
+        xmlns:sd="clr-namespace:TempoHub.User_Controls.Selection_Displays"
+        xmlns:cd="clr-namespace:TempoHub.User_Controls.Content_Displays"
+        xmlns:vm="clr-namespace:TempoHub.ViewModels.Content_Displays"
+        xmlns:behaviors="clr-namespace:TempoHub.Behaviors"
+        xmlns:mah1="http://metro.mahapps.com/winfx/xaml/controls"
+        x:Class="TempoHub.Views.MainWindow"
+        mc:Ignorable="d"
+        Title="TempoHub" Height="720" Width="1280" WindowStartupLocation="CenterScreen" TitleCharacterCasing="Normal" Icon="/TempoHub-Logo.ico" ShowIconOnTitleBar="False">
+
+    <mah1:MetroWindow.Resources>
+        <con:SubtractWithMinConverter x:Key="SubtractWithMinConverter"/>
+        <mah1:MathDivideConverter x:Key="MathDivideConverter"/>
+        <con:VisibilityBasedOnStringConverter x:Key="VisibilityBasedOnStringConverter" />
+
+        <DataTemplate DataType="{x:Type vm:PlaylistArtistContentDisplayViewModel}">
+            <cd:PlaylistArtistContentDisplay ArtistSelectionChanged="OnPlaylistArtistSelectionChanged"  PlayClick="OnPlaylistPlayBtnClick" ShuffleClick="OnPlaylistShuffleBtnClick" AddClick="OnPlaylistAddBtnClick" OrderChanged="OnPlaylistOrderChanged" SongRemoved="OnPlaylistSongRemoved" />
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type vm:PlaylistGenreContentDisplayViewModel}">
+            <cd:PlaylistGenreContentDisplay GenreSelectionChanged="OnPlaylistGenreSelectionChanged"  PlayClick="OnPlaylistPlayBtnClick" ShuffleClick="OnPlaylistShuffleBtnClick" AddClick="OnPlaylistAddBtnClick" OrderChanged="OnPlaylistOrderChanged" SongRemoved="OnPlaylistSongRemoved" />
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type vm:PlaylistRecentContentDisplayViewModel}">
+            <cd:PlaylistRecentContentDisplay  PlayClick="OnPlaylistPlayBtnClick" ShuffleClick="OnPlaylistShuffleBtnClick" AddClick="OnPlaylistAddBtnClick" OrderChanged="OnPlaylistOrderChanged" SongRemoved="OnPlaylistSongRemoved" />
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type vm:PlaylistCustomContentDisplayViewModel}">
+            <cd:PlaylistCustomContentDisplay  PlayClick="OnPlaylistPlayBtnClick" ShuffleClick="OnPlaylistShuffleBtnClick" AddClick="OnPlaylistAddBtnClick" OrderChanged="OnPlaylistOrderChanged" SongRemoved="OnPlaylistSongRemoved" PlaylistNameChanged="OnPlaylistNameChanged" />
+        </DataTemplate>
+    </mah1:MetroWindow.Resources>
+
+    <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}" AllowDrop="True" Drop="OnDropOnWindow">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="320"/>
+        </Grid.ColumnDefinitions>
+
+        <Menu Grid.ColumnSpan="3" Background="{DynamicResource MahApps.Brushes.TopMenuItem.PressedFill}">
+            <MenuItem Header="_File" Padding="7,0,8,0" Background="{DynamicResource MahApps.Brushes.TopMenuItem.PressedFill}">
+                <MenuItem Header="Add _Songs" InputGestureText="Ctrl+O" Click="OnAddSongsClick" />
+                <MenuItem Header="Add _Folder of Songs" InputGestureText="Ctrl+Shift+O" Click="OnAddFolderSongsClick" />
+            </MenuItem>
+
+            <MenuItem Header="_Edit" Padding="7,0,8,0" Background="{DynamicResource MahApps.Brushes.TopMenuItem.PressedFill}">
+                <MenuItem Header="_Import" Click="OnImportClick" />
+                <MenuItem Header="_Export" Click="OnExportClick" />
+                <MenuItem Header="_Settings" Click="OnSettingsClick" />
+            </MenuItem>
+        </Menu>
+
+        <Border Grid.ColumnSpan="3" BorderBrush="{DynamicResource MahApps.Brushes.SystemControlTransientBorder}" BorderThickness="0,0,0,3" Panel.ZIndex="1" Grid.Row="1"/>
+
+        <Grid Grid.Row="1">
+            <ComboBox x:Name="displaySelectionDropdown" SelectedIndex="0" SelectionChanged="OnDisplaySelectionDropdownChange">
+                <ComboBoxItem>
+                    <ComboBoxItem.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconMaterial Kind="Album" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Width="30" Height="30" />
+                            <Label Content="Albums" FontSize="18" />
+                        </StackPanel>
+                    </ComboBoxItem.Content>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <ComboBoxItem.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconZondicons Kind="Artist" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Width="30" Height="30" />
+                            <Label Content="Artists" FontSize="18" />
+                        </StackPanel>
+                    </ComboBoxItem.Content>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <ComboBoxItem.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconMaterial Kind="MusicBoxMultiple" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Width="30" Height="30" />
+                            <Label Content="Songs" FontSize="18" />
+                        </StackPanel>
+                    </ComboBoxItem.Content>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <ComboBoxItem.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconVaadinIcons Kind="Music" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Width="30" Height="30" />
+                            <Label Content="Song Details" FontSize="18" />
+                        </StackPanel>
+                    </ComboBoxItem.Content>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <ComboBoxItem.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconZondicons Kind="MusicPlaylist" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Width="30" Height="30" />
+                            <Label Content="Playlists" FontSize="18" />
+                        </StackPanel>
+                    </ComboBoxItem.Content>
+                </ComboBoxItem>
+            </ComboBox>
+        </Grid>
+
+        <Grid x:Name="currentlyPlayingGrid" Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.15*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0.15*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label x:Name="timelineCurrTime" Content="0:00" Margin="20,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+            <Label x:Name="timelineTotalTime" Grid.Column="2" Content="69:00" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0" />
+            <Label x:Name="currSongTitle" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" FontSize="24" Content="Fake Title" Grid.Column="1" />
+            <ProgressBar x:Name="timeline" Grid.Row="1" PreviewMouseMove="OnTimelinePreviewMouseMove" MouseUp="OnTimelineMouseLeftButtonUp" PreviewMouseLeftButtonDown="OnTimelinePreviewMouseLeftButtonDown" Margin="20,0,20,5" Height="10" Grid.ColumnSpan="3" />
+        </Grid>
+
+        <Grid x:Name="playControlsGrid" Grid.Row="1" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="7*"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="previousTrackBtn" Margin="5,0,5,0" MouseDown="OnPreviousTrackClick" Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+                <iconPacks:PackIconVaadinIcons Kind="FastBackward" Foreground="{DynamicResource MahApps.Brushes.SystemControlForegroundBaseMedium}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Grid>
+            <Grid x:Name="playTrackBtn" Margin="5,0,5,0" MouseDown="OnPlayTrackClick" Background="{DynamicResource MahApps.Brushes.ThemeBackground}" Grid.Column="1">
+                <iconPacks:PackIconModern Kind="ControlPlay" Foreground="{DynamicResource MahApps.Brushes.SystemControlForegroundBaseMedium}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Grid>
+            <Grid x:Name="pauseTrackBtn" Margin="5,0,5,0" Visibility="Collapsed" MouseDown="OnPauseTrackClick" Background="{DynamicResource MahApps.Brushes.ThemeBackground}" Grid.Column="1">
+                <iconPacks:PackIconModern Kind="ControlPause" Foreground="{DynamicResource MahApps.Brushes.SystemControlForegroundBaseMedium}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Grid>
+            <Grid x:Name="nextTrackBtn" Margin="5,0,5,0" MouseDown="OnNextTrackClick" Background="{DynamicResource MahApps.Brushes.ThemeBackground}" Grid.Column="2">
+                <iconPacks:PackIconForkAwesome Kind="FastForward" Foreground="{DynamicResource MahApps.Brushes.SystemControlForegroundBaseMedium}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Grid>
+            <Grid x:Name="volumeBtn" Margin="5,0,5,0" MouseDown="VolumeToggle" Background="{DynamicResource MahApps.Brushes.ThemeBackground}" Grid.Column="3">
+                <iconPacks:PackIconBoxIcons x:Name="volumeBtnIcon" Kind="SolidVolumeFull" Foreground="{DynamicResource MahApps.Brushes.SystemControlForegroundBaseMedium}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+            <Slider x:Name="volumeSlider" Grid.Column="5" ValueChanged="OnVolumeValueChanged" Maximum="1" LargeChange="0.1" Margin="0,0,10,0" />
+        </Grid>
+
+        <sd:Selection x:Name="albumSelection" DataContext="{Binding AlbumSelectionVm}" RefreshRequested="OnAlbumRefreshRequested" Grid.Row="2" SelectionChanged="OnAlbumSelectionSelectedChanged" Visibility="Collapsed"/>
+        <sd:Selection x:Name="artistSelection" DataContext="{Binding ArtistSelectionVm}" RefreshRequested="OnArtistRefreshRequested" Grid.Row="2" SelectionChanged="OnArtistSelectionSelectedChanged" Visibility="Collapsed"/>
+        <sd:Selection x:Name="songSelection" DataContext="{Binding SongSelectionVm}" RefreshRequested="OnSongRefreshRequested" Grid.Row="2" SelectionChanged="OnSongSelectionSelectedChanged" Visibility="Collapsed"/>
+        <sd:SelectionPlaylist x:Name="playlistSelection" DataContext="{Binding PlaylistSelectionVm}" RefreshRequested="OnPlaylistRefreshRequested" Grid.Row="2" SelectionChanged="OnPlaylistSelectionSelectedChanged" NewPlaylistClicked="OnNewPlaylistClicked" DeletePlaylistClick="OnDeletePlaylistClick"/>
+
+        <Border x:Name="songDetailsSelection" Grid.Row="2" BorderBrush="{DynamicResource MahApps.Brushes.SystemControlTransientBorder}" BorderThickness="0,0,3,0" Visibility="Collapsed">
+            <uc:SongDetailsColumnToggles DataContext="{Binding SongDetailsToggleVm}" />
+        </Border>
+
+        <cd:AlbumContentDisplay x:Name="albumContentDisplay" DataContext="{Binding AlbumContentDisplayVm}" Grid.Column="1" Grid.Row="2" Visibility="{Binding Visibility, ElementName=albumSelection}" AddSongsDialogOpen="OnAddSongsClick" AddFolderSongsDialogOpen="OnAddFolderSongContextMenu" AddToPlaylistClick="OnAddToPlaylistClick" Copy="OnCopyClick" Paste="OnPasteClick" />
+        <cd:ArtistContentDisplay x:Name="artistContentDisplay" DataContext="{Binding ArtistContentDisplayVm}" Grid.Column="1" Grid.Row="2" Visibility="{Binding Visibility, ElementName=artistSelection}" AddSongsDialogOpen="OnAddSongsClick" AddFolderSongsDialogOpen="OnAddFolderSongContextMenu" AddToPlaylistClick="OnAddToPlaylistClick" Copy="OnCopyClick" Paste="OnPasteClick" />
+        <cd:SongContentDisplay x:Name="songContentDisplay" DataContext="{Binding SongContentDisplayVm}" Grid.Column="1" Grid.Row="2" Visibility="{Binding Visibility, ElementName=songSelection}" AddSongsDialogOpen="OnAddSongsClick" AddFolderSongsDialogOpen="OnAddFolderSongContextMenu" />
+        <cd:SongDetailsContentDisplay x:Name="songDetailsContentDisplay" DataContext="{Binding SongDetailsContentDisplayVm}" Grid.Column="1" Grid.Row="2" Visibility="{Binding Visibility, ElementName=songDetailsSelection}" AddToPlaylistClick="OnAddToPlaylistClick" Copy="OnCopyClick" Paste="OnPasteClick" />
+        
+        <ContentControl Content="{Binding PlaylistContentDisplayVm}" Grid.Row="2" Grid.Column="1" Visibility="{Binding Visibility, ElementName=playlistSelection}"/>
+
+        <Border Grid.Column="2" Grid.Row="2" BorderBrush="{DynamicResource MahApps.Brushes.SystemControlTransientBorder}" BorderThickness="3,0,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Label Content="Song Queue" FontSize="24" />
+                    <Button Content="Clear" FontSize="18" Grid.Column="1" Margin="0,5,5,5" Click="OnClearQueueClick"/>
+                </Grid>
+                <Border BorderThickness="0,0,0,3" BorderBrush="{DynamicResource MahApps.Brushes.SystemControlTransientBorder}" />
+
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="songQueueItemsControl" AlternationCount="2" ItemsSource="{Binding SongQueue}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <uc:SongQueueRow x:Name="row"/>
+
+                                <DataTemplate.Triggers>
+                                    <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                                        <Setter Property="Background" Value="#33000000" TargetName="row"/>
+                                    </Trigger>
+                                    <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                        <Setter Property="Background" Value="#4C000000" TargetName="row"/>
+                                    </Trigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <Grid x:Name="notificationDisplayGrid" DataContext="{Binding NotificationDisplayVm}" Visibility="{Binding GridVisibility}" Grid.ColumnSpan="3" Grid.RowSpan="3" Background="{Binding Background}" behaviors:FadeOutBehavior.StartFadeOut="{Binding StartFadeOut}" behaviors:FadeOutBehavior.FadeOutDuration="{Binding FadeOutDuration}" behaviors:FadeOutBehavior.ActionOnComplete="{Binding OnAnimationComplete}" Height="25" VerticalAlignment="Bottom">
+            <Label Content="{Binding Text}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0"/>
+        </Grid>
+
+        <Grid x:Name="loadingDisplayGrid" d:IsHidden="True" Visibility="{Binding LoadingVisibility}" Grid.ColumnSpan="3" Grid.RowSpan="3" Background="#7F000000">
+            <uc:LoadingDisplay x:Name="loadingDisplay" DataContext="{Binding LoadingDisplayVm}" Width="{Binding ActualWidth, ConverterParameter=1.5, Converter={StaticResource MathDivideConverter}, ElementName=loadingDisplayGrid, Mode=OneWay}" Background="{DynamicResource MahApps.Brushes.MenuItem.SelectionFill}" BorderBrush="{DynamicResource MahApps.Brushes.SystemControlHighlightAltListAccentLow}" BorderThickness="2,2,2,2" VerticalAlignment="Center" />
+        </Grid>
+    </Grid>
+</mah:MetroWindow>

@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.IconPacks;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TempoHub.Converters;
+using TempoHub.User_Controls.Song_Editor_Tabs;
+using TempoHub.ViewModels;
 
 namespace TempoHub.User_Controls
 {
@@ -22,123 +26,6 @@ namespace TempoHub.User_Controls
     /// </summary>
     public partial class StarRating : UserControl
     {
-        public double Rating
-        {
-            get
-            {
-                if(starIconFive.Kind == PackIconRemixIconKind.StarFill)
-                {
-                    return 5;
-                }
-
-                else if(starIconFive.Kind == PackIconRemixIconKind.StarHalfFill)
-                {
-                    return 4.5;
-                }
-
-                else if(starIconFour.Kind == PackIconRemixIconKind.StarFill)
-                {
-                    return 4.5;
-                }
-
-                else if(starIconFour.Kind == PackIconRemixIconKind.StarHalfFill)
-                {
-                    return 3.5;
-                }
-
-                else if(starIconThree.Kind == PackIconRemixIconKind.StarFill)
-                {
-                    return 3;
-                }
-
-                else if(starIconThree.Kind == PackIconRemixIconKind.StarHalfFill)
-                {
-                    return 2.5;
-                }
-
-                else if(starIconTwo.Kind == PackIconRemixIconKind.StarFill)
-                {
-                    return 2;
-                }
-
-                else if(starIconTwo.Kind == PackIconRemixIconKind.StarHalfFill)
-                {
-                    return 1.5;
-                }
-
-                else if(starIconOne.Kind == PackIconRemixIconKind.StarFill)
-                {
-                    return 1;
-                }
-
-                else if(starIconOne.Kind == PackIconRemixIconKind.StarHalfFill)
-                {
-                    return 0.5;
-                }
-
-                return 0;
-            }
-
-            set
-            {
-                starIconOne.Kind = PackIconRemixIconKind.StarFill;
-                starIconTwo.Kind = PackIconRemixIconKind.StarFill;
-                starIconThree.Kind = PackIconRemixIconKind.StarFill;
-                starIconFour.Kind = PackIconRemixIconKind.StarFill;
-                starIconFive.Kind = PackIconRemixIconKind.StarFill;
-
-                if(value <= 4.5 && value > 4)
-                {
-                    starIconFive.Kind = PackIconRemixIconKind.StarLine;
-                }
-
-                else if(value < 5)
-                {
-                    starIconFive.Kind = PackIconRemixIconKind.StarLine;
-                }
-
-                if(value <= 3.5 && value > 3)
-                {
-                    starIconFour.Kind = PackIconRemixIconKind.StarLine;
-                }
-
-                else if(value < 4)
-                {
-                    starIconFour.Kind = PackIconRemixIconKind.StarLine;
-                }
-
-                if(value <= 2.5 && value > 2)
-                {
-                    starIconThree.Kind = PackIconRemixIconKind.StarLine;
-                }
-
-                else if(value < 3)
-                {
-                    starIconThree.Kind = PackIconRemixIconKind.StarLine;
-                }
-
-                if(value <= 1.5 && value > 1)
-                {
-                    starIconTwo.Kind = PackIconRemixIconKind.StarLine;
-                }
-
-                else if(value < 2)
-                {
-                    starIconTwo.Kind = PackIconRemixIconKind.StarLine;
-                }
-
-                if(value <= 0.5 && value > 0)
-                {
-                    starIconOne.Kind = PackIconRemixIconKind.StarLine;
-                }
-
-                else if(value <= 0)
-                {
-                    starIconOne.Kind = PackIconRemixIconKind.StarLine;
-                }
-            }
-        }
-
         public StarRating()
         {
             InitializeComponent();
@@ -146,49 +33,121 @@ namespace TempoHub.User_Controls
 
         private void OnStarGridMouseUp(object sender, MouseButtonEventArgs e)
         {
-            if(sender is Grid starGrid)
+            if(sender is PackIconRemixIcon star && DataContext is StarRatingViewModel vm)
             {
-                var clickPoint = e.GetPosition(starGrid);
-                var isOverHalf = clickPoint.X > (starGrid.ActualWidth / 2);
-
-                starIconOne.Kind = PackIconRemixIconKind.StarLine;
-                starIconTwo.Kind = PackIconRemixIconKind.StarLine;
-                starIconThree.Kind = PackIconRemixIconKind.StarLine;
-                starIconFour.Kind = PackIconRemixIconKind.StarLine;
-                starIconFive.Kind = PackIconRemixIconKind.StarLine;
-
-                switch(starGrid.Name)
+                if(!vm.Editable)
                 {
-                    case "starGridOne":
-                        starIconOne.Kind = isOverHalf ? PackIconRemixIconKind.StarFill : PackIconRemixIconKind.StarHalfLine;
+                    return;
+                }
+
+                var clickPoint = e.GetPosition(star);
+                var isOverHalf = clickPoint.X > (star.ActualWidth / 2);
+                var decimalToAdd = isOverHalf ? 1.0 : 0.5;
+
+                var converter = new RatingsConverter();
+                switch(star.Name)
+                {
+                    case "starIconOne":
+                        vm.Rating = (double) converter.ConvertBack(0 + decimalToAdd, null, null, null);
                         break;
 
-                    case "starGridTwo":
-                        starIconOne.Kind = PackIconRemixIconKind.StarFill;
-                        starIconTwo.Kind = isOverHalf ? PackIconRemixIconKind.StarFill : PackIconRemixIconKind.StarHalfLine;
+                    case "starIconTwo":
+                        vm.Rating = (double) converter.ConvertBack(1 + decimalToAdd, null, null, null);
                         break;
 
-                    case "starGridThree":
-                        starIconOne.Kind = PackIconRemixIconKind.StarFill;
-                        starIconTwo.Kind = PackIconRemixIconKind.StarFill;
-                        starIconThree.Kind = isOverHalf ? PackIconRemixIconKind.StarFill : PackIconRemixIconKind.StarHalfLine;
+                    case "starIconThree":
+                        vm.Rating = (double) converter.ConvertBack(2 + decimalToAdd, null, null, null);
                         break;
 
-                    case "starGridFour":
-                        starIconOne.Kind = PackIconRemixIconKind.StarFill;
-                        starIconTwo.Kind = PackIconRemixIconKind.StarFill;
-                        starIconThree.Kind = PackIconRemixIconKind.StarFill;
-                        starIconFour.Kind = isOverHalf ? PackIconRemixIconKind.StarFill : PackIconRemixIconKind.StarHalfLine;
+                    case "starIconFour":
+                        vm.Rating = (double) converter.ConvertBack(3 + decimalToAdd, null, null, null);
                         break;
 
-                    case "starGridFive":
-                        starIconOne.Kind = PackIconRemixIconKind.StarFill;
-                        starIconTwo.Kind = PackIconRemixIconKind.StarFill;
-                        starIconThree.Kind = PackIconRemixIconKind.StarFill;
-                        starIconFour.Kind = PackIconRemixIconKind.StarFill;
-                        starIconFive.Kind = isOverHalf ? PackIconRemixIconKind.StarFill : PackIconRemixIconKind.StarHalfLine;
+                    case "starIconFive":
+                        vm.Rating = (double) converter.ConvertBack(4 + decimalToAdd, null, null, null);
                         break;
                 }
+            }
+        }
+
+        private void OnStarRatingChanged(object sender, TextChangedEventArgs e)
+        {
+            if(double.TryParse(ratingTextBlock.Text, out double rating))
+            {
+                UpdateStars(rating);
+            }
+        }
+
+        private void UpdateStars(double rating)
+        {
+            if(rating < 0)
+            {
+                Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            var converter = new RatingsConverter();
+            rating = (double) converter.Convert(rating, null, null, null);
+
+            starIconOne.Kind = PackIconRemixIconKind.StarFill;
+            starIconTwo.Kind = PackIconRemixIconKind.StarFill;
+            starIconThree.Kind = PackIconRemixIconKind.StarFill;
+            starIconFour.Kind = PackIconRemixIconKind.StarFill;
+            starIconFive.Kind = PackIconRemixIconKind.StarFill;
+
+            if(rating >= 5)
+            {
+                return;
+            }
+
+            if(rating == 4.5)
+            {
+                starIconFive.Kind = PackIconRemixIconKind.StarHalfLine;
+            }
+
+            else if(rating <= 4)
+            {
+                starIconFive.Kind = PackIconRemixIconKind.StarLine;
+            }
+
+            if(rating == 3.5)
+            {
+                starIconFour.Kind = PackIconRemixIconKind.StarHalfLine;
+            }
+
+            else if(rating <= 3)
+            {
+                starIconFour.Kind = PackIconRemixIconKind.StarLine;
+            }
+
+            if(rating == 2.5)
+            {
+                starIconThree.Kind = PackIconRemixIconKind.StarHalfLine;
+            }
+
+            else if(rating <= 2)
+            {
+                starIconThree.Kind = PackIconRemixIconKind.StarLine;
+            }
+
+            if(rating == 1.5)
+            {
+                starIconTwo.Kind = PackIconRemixIconKind.StarHalfLine;
+            }
+
+            else if(rating <= 1)
+            {
+                starIconTwo.Kind = PackIconRemixIconKind.StarLine;
+            }
+
+            if(rating == 0.5)
+            {
+                starIconOne.Kind = PackIconRemixIconKind.StarHalfLine;
+            }
+
+            else if(rating == 0)
+            {
+                starIconOne.Kind = PackIconRemixIconKind.StarLine;
             }
         }
     }

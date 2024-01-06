@@ -10,12 +10,13 @@
              x:Class="TempoHub.User_Controls.EditorPicture"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
+    
     <UserControl.Resources>
         <mah:MathDivideConverter x:Key="MathDivideConverter"/>
         <con:EditorPictureRemoveBtnMarginConverter x:Key="EditorPictureRemoveBtnMarginConverter" />
     </UserControl.Resources>
 
-    <Grid x:Name="mainGrid" Height="{Binding Height, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="{Binding Width, RelativeSource={RelativeSource AncestorType=UserControl}}">
+    <Grid x:Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="{Binding ActualHeight, ConverterParameter=16, Converter={StaticResource MathDivideConverter}, ElementName=mainGrid, Mode=OneWay}"/>
             <RowDefinition/>
@@ -24,10 +25,21 @@
             <ColumnDefinition Width="{Binding ActualHeight, ConverterParameter=16, Converter={StaticResource MathDivideConverter}, ElementName=mainGrid, Mode=OneWay}"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <iconPacks:PackIconFeatherIcons x:Name="removalIcon" Kind="MinusCircle" Width="{Binding ActualHeight, ConverterParameter=16, Converter={StaticResource MathDivideConverter}, ElementName=picture, Mode=OneWay}" Height="{Binding ActualHeight, ConverterParameter=16, Converter={StaticResource MathDivideConverter}, ElementName=picture, Mode=OneWay}" Margin="{Binding ActualHeight, Converter={StaticResource EditorPictureRemoveBtnMarginConverter}, ElementName=removalIcon, Mode=OneWay}" Grid.Row="1" Grid.Column="1" Panel.ZIndex="1" Background="#00000000" MouseUp="OnRemovalClick" />
-        <Border Grid.Row="1" Grid.Column="1" BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType=UserControl}}">
-            <local:AspectRatioImage x:Name="picture" Background="{Binding RemovalBtnBackground, RelativeSource={RelativeSource AncestorType=UserControl}}" Foreground="{Binding RemovalBtnForeground, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <iconPacks:PackIconFeatherIcons x:Name="removalIcon" Kind="MinusCircle" Width="{Binding ActualHeight, ConverterParameter=16, Converter={StaticResource MathDivideConverter}, ElementName=picture, Mode=OneWay}" Height="{Binding ActualHeight, ConverterParameter=16, Converter={StaticResource MathDivideConverter}, ElementName=picture, Mode=OneWay}" Margin="{Binding ActualHeight, Converter={StaticResource EditorPictureRemoveBtnMarginConverter}, ElementName=removalIcon, Mode=OneWay}" Grid.Row="1" Grid.Column="1" Panel.ZIndex="1" Background="#00000000" MouseUp="OnRemovalClick" Visibility="{Binding RemovalIconVisibility}" />
+        <Border Grid.Row="1" Grid.Column="1" BorderBrush="{Binding BorderBrush}" BorderThickness="{Binding BorderThickness}">
+            <local:AspectRatioImage x:Name="picture">
+                <local:AspectRatioImage.Background>
+                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.RemovalBtnBackground"/>
+                </local:AspectRatioImage.Background>
+                
+                <local:AspectRatioImage.Foreground>
+                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.RemovalBtnForeground"/>
+                </local:AspectRatioImage.Foreground>
+                
+                <local:AspectRatioImage.DataContext>
+                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.ImageVm"/>
+                </local:AspectRatioImage.DataContext>
+            </local:AspectRatioImage>
         </Border>
     </Grid>
 </UserControl>

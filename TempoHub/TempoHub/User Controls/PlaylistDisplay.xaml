@@ -1,0 +1,60 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:local="clr-namespace:TempoHub.User_Controls"
+             xmlns:Converters="clr-namespace:TempoHub.Converters"
+             x:Class="TempoHub.User_Controls.PlaylistDisplay"
+             mc:Ignorable="d" 
+             d:DesignHeight="590" d:DesignWidth="640">
+
+    <UserControl.Resources>
+        <Converters:SubtractWithMinConverter x:Key="SubtractWithMinConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Visibility="{Binding ButtonVisibility}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Click="OnPlayBtnClick" Margin="15,0,15,0" Width="180">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconModern Kind="ControlPlay" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <Label Content="Play" FontSize="20" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+            <Button Click="OnShuffleBtnClick" Margin="15,0,15,0" Width="180">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconBoxIcons Kind="RegularShuffle" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <Label Content="Shuffle" FontSize="20" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+            <Button Click="OnAddBtnClick" Margin="15,0,15,0" Width="180" Visibility="{Binding AddButtonVisibility}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconIonicons Kind="AddMD" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <Label Content="Add" FontSize="20" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
+        <ListView x:Name="songListView" Margin="0,10,0,0" ItemsSource="{Binding Songs}" Background="{x:Null}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <local:PlaylistSongRow AllowDrop="True" Drop="OnSongDrop" PreviewMouseMove="OnSongPreviewMouseMove" Height="100" Width="{Binding ActualWidth, ConverterParameter=20, Converter={StaticResource SubtractWithMinConverter}, ElementName=songListView, Mode=OneWay}" HorizontalAlignment="Left" UpClick="OnSongUpClick" DownClick="OnSongDownClick" RemoveClick="OnSongRemoveClick" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

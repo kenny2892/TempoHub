@@ -1,0 +1,75 @@
+﻿<mah:MetroWindow
+        xmlns:User_Controls="clr-namespace:TempoHub.User_Controls"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:TempoHub.Views"
+        xmlns:Converters="clr-namespace:TempoHub.Converters" 
+        x:Class="TempoHub.Views.PlaylistAddSongWindow"
+        mc:Ignorable="d"
+        Title="Add Songs to Playlist" Height="800" Width="450" WindowStartupLocation="CenterScreen" IsMaxRestoreButtonEnabled="False" ShowMaxRestoreButton="False" IsMinButtonEnabled="False" ShowMinButton="False" IsCloseButtonEnabled="False" ShowCloseButton="False" ResizeMode="NoResize" TitleCharacterCasing="Normal" Icon="/TempoHub-Logo.ico" ShowIconOnTitleBar="False">
+
+    <mah:MetroWindow.Resources>
+        <Converters:SubtractWithMinConverter x:Key="SubtractWithMinConverter"/>
+    </mah:MetroWindow.Resources>
+
+    <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Border BorderThickness="0,0,0,5" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Margin="0,2,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Title:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="24" />
+                <TextBox Text="{Binding TitleSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" mah:TextBoxHelper.Watermark="Search Here..." TextChanged="OnSearchTextChanged" Margin="0,0,0,2" Grid.Column="1" />
+                <Label Content="Artist:" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="24" />
+                <TextBox Text="{Binding ArtistSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" mah:TextBoxHelper.Watermark="Search Here..." TextChanged="OnSearchTextChanged" Grid.Row="1" Grid.Column="1" />
+            </Grid>
+        </Border>
+
+        <ListBox x:Name="songItemsControl" AlternationCount="2" Grid.Row="1" ItemsSource="{Binding SongsFiltered}" SelectionMode="Multiple" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox.Resources>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Style.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
+                            <Setter Property="Background" Value="#33000000" />
+                        </Trigger>
+                        <Trigger Property="ItemsControl.AlternationIndex"  Value="1">
+                            <Setter Property="Background" Value="#4C000000" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Resources>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <User_Controls:PlaylistSongAddRow Height="100" Width="{Binding ActualWidth, ConverterParameter=20, Converter={StaticResource SubtractWithMinConverter}, ElementName=songItemsControl, Mode=OneWay}" HorizontalAlignment="Left" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="addBtn" Content="Add" Padding="10,6,10,6" Margin="0,0,10,0" Width="100" Height="30" Click="OnAddClick" />
+            <Button x:Name="cancelBtn" Content="Cancel" Padding="10,6,10,6" Margin="10,0,0,0" Width="100" Height="30" Click="OnCancelClick" />
+        </StackPanel>
+    </Grid>
+</mah:MetroWindow>

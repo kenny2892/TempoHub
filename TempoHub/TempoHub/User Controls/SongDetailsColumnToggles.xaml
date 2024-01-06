@@ -1,0 +1,47 @@
+﻿<UserControl xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"  x:Class="TempoHub.User_Controls.SongDetailsColumnToggles"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TempoHub.User_Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="635" d:DesignWidth="320">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Border BorderBrush="{DynamicResource MahApps.Brushes.SystemControlTransientBorder}" BorderThickness="0,0,0,4">
+            <Label Content="Show Columns" HorizontalAlignment="Center" FontSize="24" />
+        </Border>
+        
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <StackPanel Margin="0,0,10,0">
+                <mah:ToggleSwitch OnContent="Title" OffContent="Title" IsOn="{Binding Title}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Album" OffContent="Album" IsOn="{Binding Album}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Artist" OffContent="Artist" IsOn="{Binding Artist}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Album Artist" OffContent="Album Artist" IsOn="{Binding AlbumArtist}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Genres" OffContent="Genres" IsOn="{Binding Genres}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Composer" OffContent="Composer" IsOn="{Binding Composer}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Publisher" OffContent="Publisher" IsOn="{Binding Publisher}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Conductor" OffContent="Conductor" IsOn="{Binding Conductor}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Grouping" OffContent="Grouping" IsOn="{Binding Grouping}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Year" OffContent="Year" IsOn="{Binding Year}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Track #" OffContent="Track #" IsOn="{Binding TrackCurr}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Track Total" OffContent="Track Total" IsOn="{Binding TrackTotal}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Disc #" OffContent="Disc #" IsOn="{Binding DiscCurr}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Disc Total" OffContent="Disc Total" IsOn="{Binding DiscTotal}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Rating" OffContent="Rating" IsOn="{Binding Rating}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Bpm" OffContent="Bpm" IsOn="{Binding Bpm}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Comment" OffContent="Comment" IsOn="{Binding Comment}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Has Lyrics" OffContent="Has Lyrics" IsOn="{Binding HasLyrics}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Has Album Cover" OffContent="Has Album Cover" IsOn="{Binding HasAlbumCover}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="Date Added" OffContent="Date Added" IsOn="{Binding DateAdded}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+                <mah:ToggleSwitch OnContent="File Path" OffContent="File Path" IsOn="{Binding FilePath}" ContentDirection="LeftToRight" HorizontalAlignment="Right" FontSize="20" />
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

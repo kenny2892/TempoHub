@@ -12,6 +12,9 @@ namespace TempoHub.Data
     public class SongContext : DbContext
     {
         public DbSet<SongPath> SongPaths { get; set; }
+        public DbSet<HistoryRecord> HistoryRecords { get; set; }
+        public DbSet<Playlist> Playlists { get; set; }
+        public DbSet<PlaylistSongEntry> PlaylistSongEntries { get; set; }
 
         public SongContext(DbContextOptions<SongContext> options) : base(options)
         {

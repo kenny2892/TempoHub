@@ -7,13 +7,31 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <Style TargetType="Border" x:Key="borderStyle">
+            <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsChecked, ElementName=isPressed}" Value="True">
+                    <Setter Property="Background" Value="{Binding PressedBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                </DataTrigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{Binding HoverBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
+        <CheckBox x:Name="isPressed" IsChecked="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=UserControl}}" Visibility="Collapsed" />
 
-    <Border x:Name="border" MouseUp="OnMouseUp" BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-            Background="{Binding Background, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        <Border x:Name="border" MouseUp="OnMouseUp" Style="{StaticResource borderStyle}"
+            BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType=UserControl}}"
             CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=UserControl}}">
-        <Grid Background="#00000000">
-            <Label x:Name="label" Content="{Binding LabelContent, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,0"/>
-        </Grid>
-    </Border>
+
+            <Grid Background="#00000000">
+                <Label x:Name="label" Content="{Binding LabelContent, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,0"/>
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>

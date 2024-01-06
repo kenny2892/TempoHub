@@ -11,5 +11,6 @@ namespace TempoHub.Models
     {
         [Key]
         public string FilePath { get; set; }
+        public DateTime DateAdded { get; set; }
     }
 }

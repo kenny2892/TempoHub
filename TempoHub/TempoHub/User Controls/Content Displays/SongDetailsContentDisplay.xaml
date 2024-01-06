@@ -1,0 +1,195 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:local="clr-namespace:TempoHub.User_Controls.Content_Displays"
+             xmlns:uc="clr-namespace:TempoHub.User_Controls"
+             xmlns:Converters="clr-namespace:TempoHub.Converters"
+             x:Class="TempoHub.User_Controls.Content_Displays.SongDetailsContentDisplay"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+        <Style x:Key="SearchBoolComboBox" BasedOn="{StaticResource MahApps.Styles.ComboBox}" TargetType="{x:Type ComboBox}">
+            <EventSetter Event="SelectionChanged" Handler="OnSearchBoolSelectionChanged" />
+        </Style>
+
+        <Style x:Key="SearchTextBox" BasedOn="{StaticResource MahApps.Styles.TextBox}" TargetType="{x:Type TextBox}">
+            <Setter Property="Visibility" Value="Visible" />
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Text, ElementName=headerTextBlock}" Value="">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Text, ElementName=headerTextBlock}" Value="{x:Static s:String.Empty}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Text, ElementName=headerTextBlock}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <uc:SongDetailsHeaderTemplateSelector x:Key="SongDetailsHeaderTemplateSelector">
+            <uc:SongDetailsHeaderTemplateSelector.TextBoxTemplate>
+                <DataTemplate>
+                    <TextBox x:Name="searchTextBox" Style="{StaticResource SearchTextBox}" HorizontalAlignment="Stretch" TextChanged="OnSearchTextChanged" />
+                </DataTemplate>
+            </uc:SongDetailsHeaderTemplateSelector.TextBoxTemplate>
+
+            <uc:SongDetailsHeaderTemplateSelector.ComboBoxTemplate>
+                <DataTemplate>
+                    <ComboBox x:Name="searchBoolComboBox" Style="{StaticResource SearchBoolComboBox}" HorizontalAlignment="Stretch" SelectedIndex="0">
+                        <ComboBoxItem Content="" />
+                        <ComboBoxItem Content="True" />
+                        <ComboBoxItem Content="False" />
+                    </ComboBox>
+                </DataTemplate>
+            </uc:SongDetailsHeaderTemplateSelector.ComboBoxTemplate>
+
+            <uc:SongDetailsHeaderTemplateSelector.RatingTemplate>
+                <DataTemplate>
+                    <mah:NumericUpDown Maximum="5" Minimum="0" NumericInputMode="Decimal" Interval="0.5" ValueChanged="OnRatingValueChanged" />
+                </DataTemplate>
+            </uc:SongDetailsHeaderTemplateSelector.RatingTemplate>
+        </uc:SongDetailsHeaderTemplateSelector>
+
+        <Style x:Key="CustomColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock x:Name="headerTextBlock" Text="{Binding}" />
+                            <ContentControl x:Name="contentControl" Content="{Binding}" ContentTemplateSelector="{StaticResource SongDetailsHeaderTemplateSelector}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="AddToQueueTemplate">
+            <iconPacks:PackIconIonicons x:Name="addIcon" Kind="AddMD" Background="#00000000" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,12,0" MouseUp="OnAddToQueueClick" />
+        </DataTemplate>
+        <DataTemplate x:Key="PlayTemplate">
+            <iconPacks:PackIconModern x:Name="playIcon" Kind="ControlPlay" Background="#00000000" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,12,0" MouseUp="OnPlayClick" />
+        </DataTemplate>
+        <DataTemplate x:Key="RatingTemplate">
+            <uc:StarRating DataContext="{Binding}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="PlaylistContextMenu">
+            <MenuItem Header="Add to Playlist" IsEnabled="{Binding HasPlaylists}" ItemsSource="{Binding PlaylistNames}">
+                <MenuItem.ItemTemplate>
+                    <DataTemplate>
+                        <MenuItem Header="{Binding}" Click="OnAddToPlaylistClick"/>
+                    </DataTemplate>
+                </MenuItem.ItemTemplate>
+            </MenuItem>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid x:Name="toggleStatusGrid" DataContext="{Binding SongDetailsToggleVm}" Visibility="Collapsed">
+            <FrameworkElement x:Name="titleVis" Visibility="{Binding Title, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="albumVis" Visibility="{Binding Album, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="artistVis" Visibility="{Binding Artist, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="albumArtistVis" Visibility="{Binding AlbumArtist, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="genresVis" Visibility="{Binding Genres, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="composerVis" Visibility="{Binding Composer, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="publisherVis" Visibility="{Binding Publisher, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="conductorVis" Visibility="{Binding Conductor, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="groupingVis" Visibility="{Binding Grouping, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="songLengthVis" Visibility="{Binding SongLength, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="yearVis" Visibility="{Binding Year, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="trackCurrVis" Visibility="{Binding TrackCurr, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="trackTotalVis" Visibility="{Binding TrackTotal, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="discCurrVis" Visibility="{Binding DiscCurr, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="discTotalVis" Visibility="{Binding DiscTotal, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="ratingVis" Visibility="{Binding Rating, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="bpmVis" Visibility="{Binding Bpm, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="commentVis" Visibility="{Binding Comment, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="hasLyricsVis" Visibility="{Binding HasLyrics, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="hasAlbumCoverVis" Visibility="{Binding HasAlbumCover, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="filePathVis" Visibility="{Binding FilePath, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <FrameworkElement x:Name="dateAddedVis" Visibility="{Binding DateAdded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        </Grid>
+        
+        <FrameworkElement x:Name="multiSelectEnabled" IsEnabled="{Binding MultiSelectEnabled}" Visibility="Collapsed"/>
+
+        <uc:CustomDataGrid x:Name="songDataGrid" ColumnHeaderStyle="{StaticResource CustomColumnHeader}" ItemsSource="{Binding SongCollection.View}" CanUserAddRows="False" IsReadOnly="True" AutoGenerateColumns="False" CanUserResizeRows="False" SelectionChanged="OnSelectionChanged">
+            <DataGrid.Resources>
+                <ContextMenu x:Key="songEditsContextMenu" DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                    <MenuItem Header="Play" Click="OnPlayClick"/>
+                    <MenuItem Header="Add to Queue" Click="OnAddToQueueClick"/>
+                    <MenuItem Header="Add to Playlist" IsEnabled="{Binding HasPlaylists}" ItemsSource="{Binding PlaylistNames}">
+                        <MenuItem.ItemTemplate>
+                            <DataTemplate>
+                                <MenuItem Header="{Binding}" Click="OnAddToPlaylistClick"/>
+                            </DataTemplate>
+                        </MenuItem.ItemTemplate>
+                    </MenuItem>
+                    <MenuItem Header="Edit Song Info" Click="OnEditSongInfoClick"/>
+                    <MenuItem Header="Edit Songs Info" Click="OnEditSongsInfoClick" IsEnabled="{Binding IsEnabled, Source={x:Reference multiSelectEnabled}}"/>
+                    <MenuItem Header="Copy Info" Click="OnCopyClick"/>
+                    <MenuItem Header="Paste Info" Click="OnPasteClick"/>
+                    <MenuItem Header="Remove" Click="OnRemoveClick"/>
+                </ContextMenu>
+            </DataGrid.Resources>
+            
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <Setter Property="ContextMenu" Value="{StaticResource songEditsContextMenu}" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Style>
+                <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+                    <Setter Property="AlternatingRowBackground" Value="#33000000"/>
+                </Style>
+            </DataGrid.Style>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn CellTemplate="{StaticResource AddToQueueTemplate}" CanUserReorder="False" CanUserResize="False"/>
+                <DataGridTemplateColumn CellTemplate="{StaticResource PlayTemplate}" CanUserReorder="False" CanUserResize="False"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Visibility="{Binding Visibility, Source={x:Reference titleVis}}" Width="200"/>
+                <DataGridTextColumn Header="Album" Binding="{Binding Album}" Visibility="{Binding Visibility, Source={x:Reference albumVis}}" Width="200"/>
+                <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Visibility="{Binding Visibility, Source={x:Reference artistVis}}" Width="200"/>
+                <DataGridTextColumn Header="Album Artists" Binding="{Binding AlbumArtist}" Visibility="{Binding Visibility, Source={x:Reference albumArtistVis}}" Width="200"/>
+                <DataGridTextColumn Header="Genres" Binding="{Binding Genres}" Visibility="{Binding Visibility, Source={x:Reference genresVis}}" Width="200"/>
+                <DataGridTextColumn Header="Composer" Binding="{Binding Composer}" Visibility="{Binding Visibility, Source={x:Reference composerVis}}" Width="200"/>
+                <DataGridTextColumn Header="Publisher" Binding="{Binding Publisher}" Visibility="{Binding Visibility, Source={x:Reference publisherVis}}" Width="200"/>
+                <DataGridTextColumn Header="Conductor" Binding="{Binding Conductor}" Visibility="{Binding Visibility, Source={x:Reference conductorVis}}" Width="200"/>
+                <DataGridTextColumn Header="Grouping" Binding="{Binding Grouping}" Visibility="{Binding Visibility, Source={x:Reference groupingVis}}" Width="200"/>
+                <DataGridTextColumn Header="Length" Binding="{Binding SongLength}" Visibility="{Binding Visibility, Source={x:Reference songLengthVis}}" SortMemberPath="SongLengthMilliseconds"/>
+                <DataGridTextColumn Header="Year" Binding="{Binding Year}" Visibility="{Binding Visibility, Source={x:Reference yearVis}}"/>
+                <DataGridTextColumn Header="Track #" Binding="{Binding TrackCurr}" Visibility="{Binding Visibility, Source={x:Reference trackCurrVis}}"/>
+                <DataGridTextColumn Header="Track Total" Binding="{Binding TrackTotal}" Visibility="{Binding Visibility, Source={x:Reference trackTotalVis}}"/>
+                <DataGridTextColumn Header="Disc #" Binding="{Binding DiscCurr}" Visibility="{Binding Visibility, Source={x:Reference discCurrVis}}"/>
+                <DataGridTextColumn Header="Disc Total" Binding="{Binding DiscTotal}" Visibility="{Binding Visibility, Source={x:Reference discTotalVis}}"/>
+                <DataGridTemplateColumn Header="Rating" MinWidth="100" SortMemberPath="StarRating" Visibility="{Binding Visibility, Source={x:Reference ratingVis}}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <uc:StarRating DataContext="{Binding StarRatingViewModel, IsAsync=True}" Height="15" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Bpm" Binding="{Binding Bpm}" Visibility="{Binding Visibility, Source={x:Reference bpmVis}}"/>
+                <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Visibility="{Binding Visibility, Source={x:Reference commentVis}}" Width="200"/>
+                <DataGridCheckBoxColumn Header="Has Lyrics" Binding="{Binding HasLyrics, Mode=OneWay}" Visibility="{Binding Visibility, Source={x:Reference hasLyricsVis}}"/>
+                <DataGridCheckBoxColumn Header="Has Album Cover" Binding="{Binding HasAlbumCover, Mode=OneWay}" Visibility="{Binding Visibility, Source={x:Reference hasAlbumCoverVis}}"/>
+                <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}" Visibility="{Binding Visibility, Source={x:Reference dateAddedVis}}"/>
+                <DataGridTextColumn Header="File Path" Binding="{Binding FilePath}" Visibility="{Binding Visibility, Source={x:Reference filePathVis}}"/>
+            </DataGrid.Columns>
+        </uc:CustomDataGrid>
+    </Grid>
+</UserControl>

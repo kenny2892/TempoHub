@@ -7,20 +7,24 @@
              xmlns:local="clr-namespace:TempoHub.User_Controls"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="800">
+    
     <Border x:Name="songBorder" BorderThickness="2,2,2,2" BorderBrush="{DynamicResource MahApps.Brushes.Accent}">
-        <Grid x:Name="songGrid" Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundBaseLow}" MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave" MouseDown="OnDoubleClick">
+        <Grid x:Name="songGrid" MouseDown="OnDoubleClick">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            
             <StackPanel Orientation="Horizontal">
-                <iconPacks:PackIconMicrons x:Name="removeIcon" Kind="Cancel" Background="#FF848484" Foreground="{DynamicResource MahApps.Brushes.Button.Flat.Background.MouseOver}" HorizontalAlignment="Center" VerticalAlignment="Center" MouseUp="OnRemoveClick" Margin="3,0,3,0" />
-                <iconPacks:PackIconModern x:Name="playIcon" Kind="ControlPlay" Foreground="{DynamicResource MahApps.Brushes.SystemControlForegroundBaseMedium}" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="OnPlayClick" />
-                <iconPacks:PackIconFontisto x:Name="upIcon" Kind="AngleUp" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,3,0" MouseUp="OnUpArrowClick" />
-                <iconPacks:PackIconFontisto x:Name="downIcon" Kind="AngleDown" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="OnDownArrowClick" Margin="0,0,3,0" />
-                <Label x:Name="songNameLbl" Content="{Binding SongName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" />
+                <CheckBox x:Name="isSelectedCheckBox" Visibility="Collapsed" IsChecked="{Binding IsSelected}" Checked="OnCheckedChange" Unchecked="OnCheckedChange"/>
+                <TextBlock x:Name="rowIndexTextBlock" Visibility="Collapsed" Text="{Binding RowIndex}"/>
+                <iconPacks:PackIconMicrons x:Name="removeIcon" Kind="Cancel" Background="Transparent" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" MouseUp="OnRemoveClick" Margin="3,0,3,0" />
+                <iconPacks:PackIconModern x:Name="playIcon" Kind="ControlPlay" Background="Transparent" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="OnPlayClick" />
+                <iconPacks:PackIconFontisto x:Name="upIcon" Kind="AngleUp" Background="Transparent" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,3,0" MouseUp="OnUpArrowClick" />
+                <iconPacks:PackIconFontisto x:Name="downIcon" Kind="AngleDown" Background="Transparent" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="OnDownArrowClick" Margin="0,0,3,0" />
+                <Label x:Name="songNameLbl" Content="{Binding SongName}" HorizontalAlignment="Left" />
             </StackPanel>
-            <Label x:Name="songLengthLbl" Content="{Binding SongLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" HorizontalAlignment="Right" HorizontalContentAlignment="Right"/>
+            <Label x:Name="songLengthLbl" Content="{Binding SongLength}" Grid.Column="2" HorizontalAlignment="Right" HorizontalContentAlignment="Right"/>
         </Grid>
     </Border>
 </UserControl>

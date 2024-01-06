@@ -1,0 +1,70 @@
+﻿<UserControl xmlns:User_Controls="clr-namespace:TempoHub.User_Controls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:local="clr-namespace:TempoHub.User_Controls.Content_Displays"
+             xmlns:Converters="clr-namespace:TempoHub.Converters"
+             x:Class="TempoHub.User_Controls.Content_Displays.SongContentDisplay"
+             mc:Ignorable="d" 
+             d:DesignHeight="640" d:DesignWidth="640">
+    
+    <UserControl.Resources>
+        <Converters:VisibilityBasedOnStringConverter x:Key="VisibilityBasedOnStringConverter"/>
+    </UserControl.Resources>
+    
+    <Grid Background="#00000000">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem x:Name="addSongContextMenu" Header="Add Songs" Click="OnAddSongContextMenu"/>
+                <MenuItem x:Name="addFolderSongContextMenu" Header="Add Folder of Songs" Click="OnAddFolderSongContextMenu"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
+
+        <Viewbox>
+            <Label x:Name="songTitleLbl" Content="{Binding SongTitle}" HorizontalAlignment="Center" FontSize="36"/>
+        </Viewbox>
+        <Viewbox Grid.Row="1">
+            <Label x:Name="albumNameLbl" Content="{Binding AlbumName}" HorizontalAlignment="Center" FontSize="22"/>
+        </Viewbox>
+        <Viewbox Grid.Row="2">
+            <Label x:Name="artistNameLbl" Content="{Binding ArtistName}" HorizontalAlignment="Center" FontSize="18"/>
+        </Viewbox>
+        <Viewbox Grid.Row="3">
+            <Label x:Name="songLengthLbl" Content="{Binding SongLength}" HorizontalAlignment="Center" FontSize="18"/>
+        </Viewbox>
+        <User_Controls:AspectRatioImage DataContext="{Binding ImageVm}" Grid.Row="4" />
+        <StackPanel Visibility="{Binding FilePath, Converter={StaticResource VisibilityBasedOnStringConverter}}" Orientation="Horizontal" Grid.Row="5" Margin="0,10,0,10" HorizontalAlignment="Center">
+            <Button Width="180" Margin="0,0,20,0" Click="OnPlayBtnClick">
+                <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
+                    <iconPacks:PackIconModern Kind="ControlPlay" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Label Content="Play" FontSize="18" />
+                </StackPanel>
+            </Button>
+
+            <Button Width="180" Margin="20,0,20,0" Click="OnQueueBtnClick">
+                <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
+                    <iconPacks:PackIconIonicons Kind="AddMD" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Label Content="Add to Queue" FontSize="18" />
+                </StackPanel>
+            </Button>
+
+            <Button Width="180" Margin="20,0,0,0" Click="OnEditBtnClick">
+                <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
+                    <iconPacks:PackIconZondicons Kind="EditPencil" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Label Content="Edit Data" FontSize="18" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

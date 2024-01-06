@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="TempoHub.User_Controls.Song_Editor_Tabs.SortingTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TempoHub.User_Controls.Song_Editor_Tabs"
+             xmlns:uc="clr-namespace:TempoHub.User_Controls"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="450">
+
+    <StackPanel x:Name="sortStackPanel">
+        <Grid x:Name="titleGrid" Margin="0,0,0,10" Visibility="{Binding AllowSingleSongEdits}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="titleLbl" Content="Sort Title As:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="titleInput" Text="{Binding TitleSort, Mode=TwoWay}" VerticalContentAlignment="Center" Padding="4,0,0,0" Margin="0,0,50,0" Grid.Column="1" mah:TextBoxHelper.Watermark="Type Song Title Here..." />
+        </Grid>
+
+        <Grid x:Name="albumGrid" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Sort Album As:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="albumInput" Text="{Binding AlbumSort, Mode=TwoWay}" VerticalContentAlignment="Center" Padding="4,0,0,0" Margin="0,0,50,0" Grid.Column="1" mah:TextBoxHelper.Watermark="Type Album Name Here..." />
+        </Grid>
+
+        <Grid x:Name="artistGrid" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Sort Artist As:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="artistInput" Text="{Binding ArtistSort, Mode=TwoWay}" VerticalContentAlignment="Center" Padding="4,0,0,0" Margin="0,0,50,0" Grid.Column="1" mah:TextBoxHelper.Watermark="Type Artist Name Here..." />
+        </Grid>
+
+        <Grid x:Name="albumArtistGrid" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Sort Album Artist As:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="albumArtistInput" Text="{Binding AlbumArtistSort, Mode=TwoWay}" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Margin="0,0,50,0" mah:TextBoxHelper.Watermark="Type Album Artists Here..." />
+        </Grid>
+
+        <Grid x:Name="composerGrid" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Sort Composer As:" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Padding="5,0,5,0"/>
+            <TextBox x:Name="composerInput" Text="{Binding ComposerSort, Mode=TwoWay}" Grid.Column="1" VerticalContentAlignment="Center" Padding="4,0,0,0" Margin="0,0,50,0" mah:TextBoxHelper.Watermark="Type Composer Here..." />
+        </Grid>
+    </StackPanel>
+</UserControl>

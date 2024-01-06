@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="TempoHub.User_Controls.Selection_Displays.Selection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TempoHub.User_Controls.Selection_Displays"
+             xmlns:con="clr-namespace:TempoHub.Converters"
+             xmlns:uc="clr-namespace:TempoHub.User_Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="635" d:DesignWidth="320">
+
+    <UserControl.Resources>
+        <con:SubtractWithMinConverter x:Key="SubtractWithMinConverter"/>
+        <con:VisibilityBasedOnStringConverter x:Key="VisibilityBasedOnStringConverter" />
+        
+        <DataTemplate x:Key="ArtistTemplate">
+            <local:SelectionRowArtist Height="{Binding RowHeight}" Width="{Binding ViewportWidth, ConverterParameter=5, Converter={StaticResource SubtractWithMinConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollViewer}}}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AlbumTemplate">
+            <local:SelectionRowAlbum Height="{Binding RowHeight}" Width="{Binding ViewportWidth, ConverterParameter=5, Converter={StaticResource SubtractWithMinConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollViewer}}}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SongTemplate">
+            <local:SelectionRowSong Height="{Binding RowHeight}" Width="{Binding ViewportWidth, ConverterParameter=5, Converter={StaticResource SubtractWithMinConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollViewer}}}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="PlaylistTemplate">
+            <local:SelectionRowPlaylist Height="{Binding RowHeight}" Width="{Binding ViewportWidth, ConverterParameter=5, Converter={StaticResource SubtractWithMinConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollViewer}}}" DeleteClick="OnPlaylistDeleteClick"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MusicBrainzTemplate">
+            <local:SelectionRowMusicBrainzResult Height="{Binding RowHeight}" Width="{Binding ViewportWidth, ConverterParameter=5, Converter={StaticResource SubtractWithMinConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollViewer}}}"/>
+        </DataTemplate>
+
+        <local:SelectionRowTemplateSelector x:Key="RowTemplateSelector"
+                                       ArtistTemplate="{StaticResource ArtistTemplate}"
+                                       AlbumTemplate="{StaticResource AlbumTemplate}"
+                                       SongTemplate="{StaticResource SongTemplate}"
+                                       PlaylistTemplate="{StaticResource PlaylistTemplate}"
+                                       MusicBrainzTemplate="{StaticResource MusicBrainzTemplate}"/>
+    </UserControl.Resources>
+    
+    <Border BorderBrush="{DynamicResource MahApps.Brushes.SystemControlTransientBorder}" BorderThickness="0,0,3,0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <local:SelectionSearchBar DataContext="{Binding SearchVm}" PromptText="Search Here..." RefreshRequested="OnRefreshRequested"/>
+
+            <ListBox x:Name="selectionListBox" ItemsSource="{Binding ItemsFiltered}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionChanged="OnSelectionSelectedChanged" Grid.Row="1" ItemTemplateSelector="{StaticResource RowTemplateSelector}">
+                
+            </ListBox>
+        </Grid>
+    </Border>
+</UserControl>

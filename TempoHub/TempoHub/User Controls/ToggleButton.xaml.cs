@@ -20,7 +20,6 @@ namespace TempoHub.User_Controls
     /// </summary>
     public partial class ToggleButton : UserControl
     {
-        public bool IsClicked { get; set; } = false;
         public static readonly DependencyProperty BorderThicknessProperty =
             DependencyProperty.Register("BorderThickness", typeof(Thickness), typeof(ToggleButton));
 
@@ -30,11 +29,20 @@ namespace TempoHub.User_Controls
         public static readonly DependencyProperty BackgroundProperty =
             DependencyProperty.Register("Background", typeof(Brush), typeof(ToggleButton));
 
+        public static readonly DependencyProperty PressedBackgroundProperty =
+            DependencyProperty.Register("PressedBackground", typeof(Brush), typeof(ToggleButton));
+
+        public static readonly DependencyProperty HoverBackgroundProperty =
+            DependencyProperty.Register("HoverBackground", typeof(Brush), typeof(ToggleButton));
+
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(ToggleButton));
 
         public static readonly DependencyProperty LabelContentProperty =
             DependencyProperty.Register("LabelContent", typeof(string), typeof(ToggleButton));
+
+        public static readonly DependencyProperty IsPressedProperty =
+            DependencyProperty.Register("IsPressed", typeof(bool), typeof(ToggleButton));
         public Thickness BorderThickness
         {
             get { return (Thickness) GetValue(BorderThicknessProperty); }
@@ -45,6 +53,18 @@ namespace TempoHub.User_Controls
         {
             get { return (Brush) GetValue(BorderBrushProperty); }
             set { SetValue(BorderBrushProperty, value); }
+        }
+
+        public Brush HoverBackground
+        {
+            get { return (Brush) GetValue(HoverBackgroundProperty); }
+            set { SetValue(HoverBackgroundProperty, value); }
+        }
+
+        public Brush PressedBackground
+        {
+            get { return (Brush) GetValue(PressedBackgroundProperty); }
+            set { SetValue(PressedBackgroundProperty, value); }
         }
 
         public Brush Background
@@ -63,6 +83,12 @@ namespace TempoHub.User_Controls
         {
             get { return (string) GetValue(LabelContentProperty); }
             set { SetValue(LabelContentProperty, value); }
+        }
+
+        public bool IsPressed
+        {
+            get { return (bool) GetValue(IsPressedProperty); }
+            set { SetValue(IsPressedProperty, value); }
         }
 
         public Action OnMouseUpMethod { get; set; }

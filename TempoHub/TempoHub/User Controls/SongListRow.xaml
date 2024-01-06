@@ -7,23 +7,38 @@
              xmlns:local="clr-namespace:TempoHub.User_Controls"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="800">
-    <Grid x:Name="songGrid" Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundBaseLow}" MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave" MouseDown="OnDoubleClick">
+
+    <Grid x:Name="songGrid" MouseDown="OnDoubleClick" Background="#00000000">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal">
-            <iconPacks:PackIconIonicons x:Name="addIcon" Kind="AddMD" Background="#FF848484" Foreground="{DynamicResource MahApps.Brushes.Button.Flat.Background.MouseOver}" HorizontalAlignment="Center" VerticalAlignment="Center" MouseUp="OnAddClick" Margin="3,0,12,0" />
-            <iconPacks:PackIconModern x:Name="playIcon" Kind="ControlPlay" Background="#FF848484" Foreground="{DynamicResource MahApps.Brushes.Button.Flat.Background.MouseOver}" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="OnPlayClick" Margin="0,0,12,0" />
-            <Label x:Name="songNameLbl" Content="{Binding SongName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+            <iconPacks:PackIconIonicons x:Name="addIcon" Kind="AddMD" Background="Transparent" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" MouseUp="OnAddToQueueClick" Margin="3,0,12,0" />
+            <iconPacks:PackIconModern x:Name="playIcon" Kind="ControlPlay" Background="Transparent" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="OnPlayClick" Margin="0,0,12,0" />
+            <Label x:Name="trackNumLbl" Content="{Binding TrackNum}" HorizontalAlignment="Center" Width="25" />
+            <Label x:Name="songNameLbl" Content="{Binding SongName, Mode=OneWay}" HorizontalAlignment="Left"/>
         </StackPanel>
 
-        <Label x:Name="songLengthLbl" Content="{Binding SongLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" HorizontalAlignment="Right" HorizontalContentAlignment="Right"/>
+        <Label x:Name="songLengthLbl" Content="{Binding SongLength, Mode=OneWay}" Grid.Column="2" HorizontalAlignment="Right" HorizontalContentAlignment="Right"/>
 
         <Grid.ContextMenu>
             <ContextMenu>
+                <MenuItem Header="Play" Click="OnPlayClick"/>
+                <MenuItem Header="Add to Queue" Click="OnAddToQueueClick"/>
+                <MenuItem Header="Add to Playlist" IsEnabled="{Binding HasPlaylists}" ItemsSource="{Binding PlaylistNames}">
+                    <MenuItem.ItemTemplate>
+                        <DataTemplate>
+                            <MenuItem Header="{Binding}" Click="OnAddToPlaylistClick"/>
+                        </DataTemplate>
+                    </MenuItem.ItemTemplate>
+                </MenuItem>
                 <MenuItem Header="Edit Song Info" Click="OnEditSongInfoClick"/>
+                <MenuItem Header="Edit Songs Info" Click="OnEditSongsInfoClick" IsEnabled="{Binding MultiSelectEnabled}"/>
+                <MenuItem Header="Copy Info" Click="OnCopyClick"/>
+                <MenuItem Header="Paste Info" Click="OnPasteClick"/>
+                <MenuItem Header="Remove" Click="OnRemoveClick"/>
             </ContextMenu>
         </Grid.ContextMenu>
     </Grid>

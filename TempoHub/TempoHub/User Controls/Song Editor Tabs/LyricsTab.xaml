@@ -1,0 +1,15 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TempoHub.User_Controls.Song_Editor_Tabs"
+             xmlns:uc="clr-namespace:TempoHub.User_Controls"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             x:Class="TempoHub.User_Controls.Song_Editor_Tabs.LyricsTab"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="450">
+    <Grid>
+        <TextBox x:Name="lyricsTextBox" Margin="20,0,20,10" Text="{Binding Lyrics, Mode=TwoWay}" VerticalScrollBarVisibility="Auto" mah:TextBoxHelper.Watermark="Type Lyrics Here..."/>
+    </Grid>
+</UserControl>

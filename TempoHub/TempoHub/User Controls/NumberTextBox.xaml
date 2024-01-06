@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:TempoHub.User_Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <TextBox PreviewTextInput="OnPreviewTextInput" DataObject.Pasting="OnTextPasting" Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="{Binding ActualWidth, ElementName=userControl, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=userControl, Mode=OneWay}">
+    
+    <TextBox PreviewTextInput="OnPreviewTextInput" DataObject.Pasting="OnTextPasting" Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="{Binding ActualWidth, ElementName=userControl, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=userControl, Mode=OneWay}" Padding="0,0,0,0">
 
     </TextBox>
 </UserControl>

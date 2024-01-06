@@ -16,155 +16,101 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TempoHub.Models;
+using TempoHub.ViewModels;
 
 namespace TempoHub.User_Controls
 {
     /// <summary>
     /// Interaction logic for SongListRow.xaml
     /// </summary>
-    public partial class SongListRow : UserControl, INotifyPropertyChanged
+    public partial class SongListRow : UserControl
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public SongFile Song { get; set; }
-
-        private string songName = "";
-        public string SongName
-        {
-            get { return songName; }
-            set
-            {
-                if(value != null && value != songName)
-                {
-                    songName = value;
-                    OnPropertyChanged(nameof(SongName));
-                }
-            }
-        }
-
-        private string songLength = "";
-        public string SongLength
-        {
-            get { return songLength; }
-            set
-            {
-                if(value != null && value != songLength)
-                {
-                    songLength = value;
-                    OnPropertyChanged(nameof(SongLength));
-                }
-            }
-        }
-
-        private int rowIndex = 0;
-        public int RowIndex
-        {
-            get { return rowIndex; }
-            set
-            {
-                rowIndex = value;
-                songGrid.Background = DefaultBackgroundColor;
-                addIcon.Background = DefaultBackgroundColor;
-                addIcon.Foreground = DefaultAddIconColor;
-                playIcon.Background = DefaultBackgroundColor;
-                playIcon.Foreground = DefaultAddIconColor;
-            }
-        }
-        private static Brush DarkGrey { get; set; } = new SolidColorBrush(Color.FromRgb(40, 40, 40));
-        private static Brush MediumGrey { get; set; } = new SolidColorBrush(Color.FromRgb(76, 76, 76));
-        private static Brush LightGrey { get; set; } = new SolidColorBrush(Color.FromRgb(132, 132, 132));
-        private Brush DefaultBackgroundColor
-        {
-            get
-            {
-                if((double) RowIndex / 2.0 == RowIndex / 2)
-                {
-                    return MediumGrey;
-                }
-
-                return LightGrey;
-            }
-        }
-        private Brush DefaultAddIconColor
-        {
-            get
-            {
-                if((double) RowIndex / 2.0 == RowIndex / 2)
-                {
-                    return LightGrey;
-                }
-
-                return MediumGrey;
-            }
-        }
-        public Action OnDoubleClickMethod { get; set; }
-        public Action OnAddClickMethod { get; set; }
-        public Action OnPlayClickMethod { get; set; }
-        public Action OnEditSongInfoClickMethod { get; set; }
-
+        public event EventHandler<MouseButtonEventArgs> DoubleClick;
+        public event EventHandler<string> AddToQueueClick;
+        public event EventHandler<string> PlayClick;
+        public event EventHandler<RoutedEventArgs> RemoveClick;
+        public event EventHandler<RoutedEventArgs> EditSongInfoClick;
+        public event EventHandler<RoutedEventArgs> EditSongsInfoClick;
+        public event EventHandler<AddToPlaylistEventArgs> AddToPlaylistClick;
+        public event EventHandler<SongCopyPasteEventArgs> Copy;
+        public event EventHandler<SongCopyPasteEventArgs> Paste;
         public SongListRow()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        public void OnDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public void UpdateInfo()
-        {
-            SongName = Song.TagLibFile.Tag.Title;
-            SongLength = $"{Song.TagLibFile.Properties.Duration.Minutes}:{(Song.TagLibFile.Properties.Duration.Seconds).ToString().PadLeft(2, '0')}";
-        }
-
-        public void OnMouseEnter(object sender, MouseEventArgs e)
-        {
-            songGrid.Background = DarkGrey;
-            addIcon.Background = DarkGrey;
-            addIcon.Foreground = LightGrey;
-            playIcon.Background = DarkGrey;
-            playIcon.Foreground = LightGrey;
-        }
-
-        public void OnMouseLeave(object sender, MouseEventArgs e)
-        {
-            songGrid.Background = DefaultBackgroundColor;
-            addIcon.Background = DefaultBackgroundColor;
-            addIcon.Foreground = DefaultAddIconColor;
-            playIcon.Background = DefaultBackgroundColor;
-            playIcon.Foreground = DefaultAddIconColor;
-        }
-
-        private void OnDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if(OnDoubleClickMethod != null && e.ClickCount == 2 && !(e.OriginalSource is PackIconBase))
+            if(e.ClickCount == 2 && !(e.OriginalSource is PackIconBase))
             {
-                OnDoubleClickMethod();
+                DoubleClick?.Invoke(this, e);
             }
         }
 
-        private void OnAddClick(object sender, MouseButtonEventArgs e)
+        public void OnAddToQueueClick(object sender, MouseButtonEventArgs e)
         {
-            if(OnAddClickMethod != null)
+            AddToQueueClick?.Invoke(this, "Button");
+        }
+
+        private void OnAddToQueueClick(object sender, RoutedEventArgs e)
+        {
+            AddToQueueClick?.Invoke(this, "Menu");
+        }
+
+        public void OnPlayClick(object sender, MouseButtonEventArgs e)
+        {
+            PlayClick?.Invoke(DataContext, "Button");
+        }
+
+        private void OnPlayClick(object sender, RoutedEventArgs e)
+        {
+            PlayClick?.Invoke(DataContext, "Menu");
+        }
+
+        public void OnEditSongInfoClick(object sender, RoutedEventArgs e)
+        {
+            EditSongInfoClick?.Invoke(DataContext, e);
+        }
+
+        public void OnEditSongsInfoClick(object sender, RoutedEventArgs e)
+        {
+            EditSongsInfoClick?.Invoke(this, e);
+        }
+
+        private void OnRemoveClick(object sender, RoutedEventArgs e)
+        {
+            RemoveClick?.Invoke(this, e);
+        }
+
+        private void OnAddToPlaylistClick(object sender, RoutedEventArgs e)
+        {
+            if(DataContext is SongListRowViewModel vm && sender is MenuItem playlistBtn)
             {
-                OnAddClickMethod();
+                AddToPlaylistEventArgs args = new AddToPlaylistEventArgs();
+                args.FilePaths.Add(vm.Song.FilePath);
+                args.PlaylistName = playlistBtn.Header as string;
+
+                AddToPlaylistClick?.Invoke(this, args);
             }
         }
 
-        private void OnPlayClick(object sender, MouseButtonEventArgs e)
+        private void OnCopyClick(object sender, RoutedEventArgs e)
         {
-            if(OnPlayClickMethod != null)
+            if(DataContext is SongListRowViewModel vm)
             {
-                OnPlayClickMethod();
+                SongCopyPasteEventArgs args = new SongCopyPasteEventArgs();
+                args.FilePath = vm.Song.FilePath;
+                Copy?.Invoke(this, args);
             }
         }
 
-        private void OnEditSongInfoClick(object sender, RoutedEventArgs e)
+        private void OnPasteClick(object sender, RoutedEventArgs e)
         {
-            if(OnEditSongInfoClickMethod != null)
+            if(DataContext is SongListRowViewModel vm)
             {
-                OnEditSongInfoClickMethod();
+                SongCopyPasteEventArgs args = new SongCopyPasteEventArgs();
+                args.FilePath = vm.Song.FilePath;
+                Paste?.Invoke(this, args);
             }
         }
     }

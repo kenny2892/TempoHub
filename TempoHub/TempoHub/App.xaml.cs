@@ -17,7 +17,7 @@ namespace TempoHub
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            ThemeManager.Current.ChangeTheme(this, "Dark.Orange");
+            ThemeManager.Current.ChangeTheme(this, "Dark.Pink");
         }
     }
 }
